@@ -25,7 +25,11 @@ class SongsController < ApplicationController
   end
 
   def new
-    @post = Post.new(author_id: params[:author_id])
+    if params[:artist_id] && !Artist.exists?(params[:artist_id])
+      redirect_to artists_path, alert: "No Artist Found"
+    else
+      @song = Song.new(artist_id: params[:artist_id])
+    end
   end
 
   def create
